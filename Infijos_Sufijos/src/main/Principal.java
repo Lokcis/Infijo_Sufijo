@@ -1,31 +1,49 @@
 package main;
+
 import arrays.*;
 import java.util.Scanner;
+
 /**
  *
  * @author lokci
  */
 public class Principal {
-    
+
     ArrayQueue<String> queueIn, queueOut;
     ArrayBag<String> bag;
     ArrayStack<String> stack;
-    
-    public Principal(){
+
+    public Principal() {
         queueIn = new ArrayQueue<>();
         queueOut = new ArrayQueue<>();
         bag = new ArrayBag<>();
         stack = new ArrayStack<>();
     }
-    
+
     public static void main(String[] args) {
         Principal main;
-        String ecu;
+        main = new Principal();
+        String ecu = "-", each;
+        char temp;        
         Scanner in = new Scanner(System.in);
-        ecu = in.next();
-        while(!ecu.isEmpty()){
-            
+        System.out.println("""
+                           ¡BIENVENIDO!
+                           """);
+        while (!ecu.isEmpty()) {
+            System.out.println("""
+                           Por favor, ingresa la ecuación infija a convertir a sufija.
+                           """);
+            ecu = in.next();
+            for (int i = ecu.length() - 1; i >= 0; i--) {
+                temp = ecu.charAt(i);
+                each = String.valueOf(temp);
+                main.queueIn.enqueue(each);
+            }
+            for (String c : main.queueIn) {
+                System.out.println(c);
+            }
+            ecu = " ";
         }
     }
-    
+
 }
