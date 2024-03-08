@@ -35,9 +35,7 @@ public class ArrayQueue<Item> implements Iterable<Item> {
         } else {
             Item temp = arr[first];
             count--;
-            for (int i = 1; i < count; i++) {
-                arr[i - 1] = arr[i];
-            }
+            first = (first + 1) % arr.length; // Actualiza índice del frente
             if (count <= arr.length / 4 && count > 0) {
                 resize(arr.length / 2);
             }

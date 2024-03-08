@@ -2,6 +2,7 @@
 package arrays;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -48,17 +49,19 @@ public class ArrayBag<Item> implements Iterable<Item> {
 
     private class ReverseArrayIterator implements Iterator<Item> {
 
-        private int i = count;
+        private int i = count - 1;
 
         @Override
         public boolean hasNext() {
-            return count > 0;
+            return i > 0;
         }
 
         @Override
         public Item next() {
-            return arr[--i];
-
+            if (!hasNext()) {
+                throw new NoSuchElementException("No hay más elementos para iterar");
+            }
+            return arr[i--];
         }
 
     }

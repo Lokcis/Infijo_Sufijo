@@ -34,12 +34,16 @@ public class ArrayStack<Item> implements Iterable<Item> {
      * @return
      */
     public Item pop() {
-        Item temp = arr[--count];
-        arr[count] = null;
-        if (count <= arr.length / 4 && count > 0) {
-            resize(arr.length / 2);
+        if (isEmpty()) {
+            throw new NoSuchElementException("La cola está vacía");
+        } else {
+            Item temp = arr[--count];
+            arr[count] = null;
+            if (count <= arr.length / 4 && count > 0) {
+                resize(arr.length / 2);
+            }
+            return temp;
         }
-        return temp;
     }
 
     public boolean isEmpty() {

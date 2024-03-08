@@ -48,20 +48,29 @@ public class Principal {
                     String operator = main.stack.pop();
                     double operand = main.queueOut.dequeue();
                     if (operator.equals("+")) {
+                        main.bag.add(s);
                         operand = main.queueOut.dequeue() + operand;
                     }
                     if (operator.equals("-")) {
+                        main.bag.add(s);
                         operand = main.queueOut.dequeue() - operand;
                     }
                     if (operator.equals("*")) {
+                        main.bag.add(s);
                         operand = main.queueOut.dequeue() * operand;
                     }
-                    if (operator.equals("/")) {
+                    if (operator.equals("/")) {                        
+                        main.bag.add(s);
                         operand = main.queueOut.dequeue() / operand;
                     }
                 } else {
                     main.queueOut.enqueue(Integer.parseInt(s));
+                    main.bag.add(s);
                 }
+            }
+            System.out.println(main.stack.pop());
+            for(String s : main.bag){
+                System.out.println(s);
             }
         }
     }
