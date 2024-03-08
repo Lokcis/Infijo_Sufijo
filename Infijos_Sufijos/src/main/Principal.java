@@ -46,29 +46,30 @@ public class Principal {
                     main.stack.push(s);
                 } else if (s.equals(")")) {
                     String operator = main.stack.pop();
-                    double operand = main.queueOut.dequeue();
+                    int operand = main.queueOut.dequeue();
                     if (operator.equals("+")) {
-                        main.bag.add(s);
                         operand = main.queueOut.dequeue() + operand;
+                        main.bag.add(String.valueOf(operand) + main.stack);
                     }
                     if (operator.equals("-")) {
-                        main.bag.add(s);
                         operand = main.queueOut.dequeue() - operand;
+                        main.bag.add(String.valueOf(operand));
                     }
                     if (operator.equals("*")) {
-                        main.bag.add(s);
+                        System.out.println("entra");
                         operand = main.queueOut.dequeue() * operand;
+                        main.bag.add(String.valueOf(operand));
                     }
-                    if (operator.equals("/")) {                        
-                        main.bag.add(s);
+                    if (operator.equals("/")) {
                         operand = main.queueOut.dequeue() / operand;
+                        main.bag.add(String.valueOf(operand));
                     }
                 } else {
-                    main.queueOut.enqueue(Integer.parseInt(s));
+                    main.queueOut.enqueue(Integer.valueOf(s));
                     main.bag.add(s);
                 }
             }
-            for(String s : main.bag){
+            for (String s : main.bag) {
                 System.out.println(s);
             }
         }
