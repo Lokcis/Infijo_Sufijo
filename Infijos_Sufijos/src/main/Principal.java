@@ -9,7 +9,8 @@ import java.util.Scanner;
  */
 public class Principal {
 
-    ArrayQueue<String> queueIn, queueOut;
+    ArrayQueue<String> queueIn;
+    ArrayQueue<Integer> queueOut;
     ArrayBag<String> bag;
     ArrayStack<String> stack;
 
@@ -24,7 +25,7 @@ public class Principal {
         Principal main;
         main = new Principal();
         String ecu = "-", each;
-        char temp;        
+        char temp;
         Scanner in = new Scanner(System.in);
         System.out.println("""
                            ¡BIENVENIDO!
@@ -39,11 +40,29 @@ public class Principal {
                 each = String.valueOf(temp);
                 main.queueIn.enqueue(each);
             }
-            for (String c : main.queueIn) {
-                System.out.println(c);
+            for (String s : main.queueIn) {
+                if (s.equals("(")) {
+                } else if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/")) {
+                    main.stack.push(s);
+                } else if (s.equals(")")) {
+                    String operator = main.stack.pop();
+                    double operand = main.queueOut.dequeue();
+                    if (operator.equals("+")) {
+                        operand = main.queueOut.dequeue() + operand;
+                    }
+                    if (operator.equals("-")) {
+                        operand = main.queueOut.dequeue() - operand;
+                    }
+                    if (operator.equals("*")) {
+                        operand = main.queueOut.dequeue() * operand;
+                    }
+                    if (operator.equals("/")) {
+                        operand = main.queueOut.dequeue() / operand;
+                    }
+                } else {
+                    main.queueOut.enqueue(Integer.parseInt(s));
+                }
             }
-            ecu = " ";
         }
     }
-
 }
