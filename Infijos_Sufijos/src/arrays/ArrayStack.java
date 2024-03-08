@@ -1,11 +1,15 @@
-
+//OK -> No es genérica, solo permite almacenar cadenas de caracteres
+//OK -> Es de tamaño fijo
+//No es iterable
+//Desperdicia espacio (Loitering)
 package arrays;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  *
- * @author lokci
+ * @author Juan Carlos Navarro
  * @param <Item>
  */
 public class ArrayStack<Item> implements Iterable<Item> {
@@ -61,17 +65,19 @@ public class ArrayStack<Item> implements Iterable<Item> {
 
     private class ReverseArrayIterator implements Iterator<Item> {
 
-        private int i = count;
+        private int i = count - 1;
 
         @Override
         public boolean hasNext() {
-            return count > 0;
+            return i >= 0;
         }
 
         @Override
         public Item next() {
-            return arr[--i];
-
+            if (!hasNext()) {
+                throw new NoSuchElementException("No hay más elementos para iterar");
+            }
+            return arr[i--];
         }
 
     }
