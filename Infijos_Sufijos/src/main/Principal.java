@@ -68,7 +68,6 @@ public class Principal {
                     main.bag.add(s);
                 }
             }
-            System.out.println(main.stack.pop());
             for(String s : main.bag){
                 System.out.println(s);
             }
