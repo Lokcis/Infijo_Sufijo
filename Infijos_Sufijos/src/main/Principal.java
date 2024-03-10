@@ -34,7 +34,7 @@ public class Principal {
                 if (ecu.contains(" ")) {
                     throw new Exception("Por favor, ingresa la ecuación sin espacios.");
                 }
-                
+
                 String[] elements = ecu.split("");
                 for (String each : elements) {
                     main.queueIn.enqueue(each);
@@ -66,10 +66,50 @@ public class Principal {
 
                 // Imprimir la cola de salida (expresión posfija)
                 System.out.println("Expresión posfija:");
+                ArrayQueue<String> queueOutCopy = new ArrayQueue<>();
                 while (!main.queueOut.isEmpty()) {
-                    System.out.print(main.queueOut.dequeue() + " ");
+                    String element = main.queueOut.dequeue();
+                    System.out.print(element + " ");
+                    queueOutCopy.enqueue(element);  // Guardar una copia de la cola de salida
                 }
                 System.out.println();
+
+                main.queueOut = queueOutCopy;  // Actualizar queueOut con la copia
+
+                // Evaluar la expresión posfija
+                ArrayStack<Double> evaluation = new ArrayStack<>();
+                while (!main.queueOut.isEmpty()) {
+                    String s = main.queueOut.dequeue();
+
+                    if (s.charAt(0) >= '0' && s.charAt(0) <= '9') {
+                        evaluation.push(Double.parseDouble(s));
+                    } else {
+                        double rightOperand = evaluation.pop();
+                        double leftOperand = evaluation.pop();
+
+                        switch (s) {
+                            case "+":
+                                evaluation.push(leftOperand + rightOperand);
+                                break;
+                            case "-":
+                                evaluation.push(leftOperand - rightOperand);
+                                break;
+                            case "*":
+                                evaluation.push(leftOperand * rightOperand);
+                                break;
+                            case "/":
+                                if (rightOperand != 0) {
+                                    evaluation.push(leftOperand / rightOperand);
+                                } else {
+                                    throw new UnsupportedOperationException("No se puede dividir por cero.");
+                                }
+                                break;
+                        }
+                    }
+                }
+
+                double result = evaluation.pop();
+                System.out.println("Resultado: " + result);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
