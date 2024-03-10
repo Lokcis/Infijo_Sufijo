@@ -42,7 +42,7 @@ public class ArrayStack<Item> implements Iterable<Item> {
         } else {
             Item temp = arr[--count];
             arr[count] = null;
-            if (count <= arr.length / 4) {
+            if (count > 0 && count <= arr.length / 4) {
                 resize(arr.length / 2);
             }
 

@@ -34,8 +34,7 @@ public class Principal {
                 if (ecu.contains(" ")) {
                     throw new Exception("Por favor, ingresa la ecuación sin espacios.");
                 }
-                main.queueOut = new ArrayQueue<>();
-
+                
                 String[] elements = ecu.split("");
                 for (String each : elements) {
                     main.queueIn.enqueue(each);
