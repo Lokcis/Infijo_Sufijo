@@ -1,4 +1,3 @@
-
 package arrays;
 
 import java.util.Iterator;
@@ -44,16 +43,16 @@ public class ArrayBag<Item> implements Iterable<Item> {
 
     @Override
     public Iterator<Item> iterator() {
-        return new ReverseArrayIterator();
+        return new ArrayIterator();
     }
 
-    private class ReverseArrayIterator implements Iterator<Item> {
+    private class ArrayIterator implements Iterator<Item> {
 
-        private int i = count - 1;
+        private int i = 0;
 
         @Override
         public boolean hasNext() {
-            return i > 0;
+            return i < count;
         }
 
         @Override
@@ -61,9 +60,8 @@ public class ArrayBag<Item> implements Iterable<Item> {
             if (!hasNext()) {
                 throw new NoSuchElementException("No hay más elementos para iterar");
             }
-            return arr[i--];
+            return arr[i++];
         }
-
     }
 
 }

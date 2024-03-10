@@ -18,21 +18,23 @@ public class ArrayQueue<Item> implements Iterable<Item> {
     public ArrayQueue() {
         arr = (Item[]) new Object[1];
         count = 0;
+        first=0;
+        last=0;
     }
 
-    public void enqueue(Item item) {
-        if (count == arr.length) {
-            resize(arr.length * 2);
-        }
-        last = (last + 1) % arr.length;
-        arr[last] = item;
-        count++;
+public void enqueue(Item item) {
+    if (count == arr.length) {
+        resize(arr.length * 2);
     }
+    arr[last] = item;
+    last = (last + 1) % arr.length; // Actualizar last después de asignar el elemento al arreglo
+    count++;
+}
 
     public Item dequeue() {
         if (isEmpty()) {
             throw new NoSuchElementException("Dequeue: Queue está vacío");
-        } else {
+        }
             Item temp = arr[first];
             count--;
             first = (first + 1) % arr.length; // Actualiza índice del frente
@@ -40,7 +42,6 @@ public class ArrayQueue<Item> implements Iterable<Item> {
                 resize(arr.length / 2);
             }
             return temp;
-        }
     }
 
     public boolean isEmpty() {
@@ -52,6 +53,12 @@ public class ArrayQueue<Item> implements Iterable<Item> {
     }
 
     private void resize(int maxCap) {
+        if (count==0) {
+            arr = (Item[]) new Object[maxCap];
+            first = 0;
+            last = 0;
+            return;
+        }
         Item[] temp = (Item[]) new Object[maxCap];
         int current = first;
         for (int i = 0; i < count; i++) {
@@ -59,6 +66,8 @@ public class ArrayQueue<Item> implements Iterable<Item> {
             current = (current + 1) % arr.length;
         }
         arr = temp;
+        first=0;
+        last=count % arr.length;
     }
 
     @Override

@@ -1,77 +1,71 @@
 package main;
 
 import arrays.*;
+
 import java.util.Scanner;
 
-/**
- *
- * @author lokci
- */
 public class Principal {
 
     ArrayQueue<String> queueIn;
-    ArrayQueue<Integer> queueOut;
-    ArrayBag<String> bag;
+    ArrayQueue<String> queueOut;
     ArrayStack<String> stack;
 
     public Principal() {
         queueIn = new ArrayQueue<>();
         queueOut = new ArrayQueue<>();
-        bag = new ArrayBag<>();
         stack = new ArrayStack<>();
     }
 
     public static void main(String[] args) {
-        Principal main;
-        main = new Principal();
-        String ecu = "-", each;
-        char temp;
+        Principal main = new Principal();
+        String ecu;
         Scanner in = new Scanner(System.in);
-        System.out.println("""
-                           ¡BIENVENIDO!
-                           """);
-        while (!ecu.isEmpty()) {
-            System.out.println("""
-                           Por favor, ingresa la ecuación infija a convertir a sufija.
-                           """);
-            ecu = in.next();
-            for (int i = ecu.length() - 1; i >= 0; i--) {
-                temp = ecu.charAt(i);
-                each = String.valueOf(temp);
+        System.out.println("¡BIENVENIDO!");
+
+        while (true) {
+            System.out.println("Por favor, ingresa la ecuación infija a convertir a sufija (o introduce 'exit' para salir):");
+            ecu = in.nextLine();
+
+            if (ecu.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            main.queueOut = new ArrayQueue<>();
+
+            String[] elements = ecu.split("");
+            for (String each : elements) {
                 main.queueIn.enqueue(each);
             }
-            for (String s : main.queueIn) {
-                if (s.equals("(")) {
-                } else if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/")) {
+
+            // Lógica de conversión de infijo a posfijo
+            while (!main.queueIn.isEmpty()) {
+                String s = main.queueIn.dequeue();
+                if (Character.isDigit(s.charAt(0))) {
+                    main.queueOut.enqueue(s); // Agregar dígitos a la cola de salida
+                } else if (s.equals("(")) {
                     main.stack.push(s);
                 } else if (s.equals(")")) {
-                    String operator = main.stack.pop();
-                    int operand = main.queueOut.dequeue();
-                    if (operator.equals("+")) {
-                        operand = main.queueOut.dequeue() + operand;
-                        main.bag.add(String.valueOf(operand) + main.stack);
+                    while (!main.stack.isEmpty() && !main.stack.peek().equals("(")) {
+                        main.queueOut.enqueue(main.stack.pop()); // Agregar operadores a la cola de salida
                     }
-                    if (operator.equals("-")) {
-                        operand = main.queueOut.dequeue() - operand;
-                        main.bag.add(String.valueOf(operand));
-                    }
-                    if (operator.equals("*")) {
-                        System.out.println("entra");
-                        operand = main.queueOut.dequeue() * operand;
-                        main.bag.add(String.valueOf(operand));
-                    }
-                    if (operator.equals("/")) {
-                        operand = main.queueOut.dequeue() / operand;
-                        main.bag.add(String.valueOf(operand));
-                    }
+                    main.stack.pop(); // Descartar el paréntesis izquierdo
                 } else {
-                    main.queueOut.enqueue(Integer.valueOf(s));
-                    main.bag.add(s);
+                    while (!main.stack.isEmpty() && (s.equals("*") || s.equals("/")) && (main.stack.peek().equals("+") || main.stack.peek().equals("-"))) {
+                        main.queueOut.enqueue(main.stack.pop()); // Agregar operadores a la cola de salida
+                    }
+                    main.stack.push(s);
                 }
             }
-            for (String s : main.bag) {
-                System.out.println(s);
+            while (!main.stack.isEmpty()) {
+                main.queueOut.enqueue(main.stack.pop()); // Agregar los operadores restantes a la cola de salida
             }
+
+            // Imprimir la cola de salida (expresión posfija)
+            System.out.println("Expresión posfija:");
+            while (!main.queueOut.isEmpty()) {
+                System.out.print(main.queueOut.dequeue() + " ");
+            }
+            System.out.println();
         }
     }
 }

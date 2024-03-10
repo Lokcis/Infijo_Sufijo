@@ -16,10 +16,12 @@ public class ArrayStack<Item> implements Iterable<Item> {
 
     private Item[] arr;
     private int count;
+    private Item top;
 
     public ArrayStack() {
         arr = (Item[]) new Object[1];
         count = 0;
+        top = null;
     }
 
     public void push(Item item) {
@@ -27,6 +29,7 @@ public class ArrayStack<Item> implements Iterable<Item> {
             resize(arr.length * 2);
         }
         arr[count++] = item;
+        top = item;
     }
 
     /**
@@ -39,8 +42,14 @@ public class ArrayStack<Item> implements Iterable<Item> {
         } else {
             Item temp = arr[--count];
             arr[count] = null;
-            if (count <= arr.length / 4 && count > 0) {
+            if (count <= arr.length / 4) {
                 resize(arr.length / 2);
+            }
+
+            if (isEmpty()) {
+                top = null; // Si la pila está vacía, actualizar la referencia a null
+            } else {
+                top = arr[count - 1]; // Actualizar la referencia al nuevo elemento en la cima
             }
             return temp;
         }
@@ -62,12 +71,19 @@ public class ArrayStack<Item> implements Iterable<Item> {
         arr = temp;
     }
 
-    @Override
-    public Iterator<Item> iterator() {
-        return new ReverseArrayIterator();
+    public Item peek() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("La pila está vacía");
+        }
+        return top;
     }
 
-    private class ReverseArrayIterator implements Iterator<Item> {
+    @Override
+    public Iterator<Item> iterator() {
+        return new ArrayIterator();
+    }
+
+    private class ArrayIterator implements Iterator<Item> {
 
         private int i = count - 1;
 
@@ -83,7 +99,6 @@ public class ArrayStack<Item> implements Iterable<Item> {
             }
             return arr[i--];
         }
-
     }
 
 }
