@@ -15,18 +15,6 @@ public class History {
         answer = newAnswer;
     }
 
-    public String getInfix() {
-        return infix;
-    }
-
-    public String getSufix() {
-        return sufix;
-    }
-
-    public double getAnswer() {
-        return answer;
-    }
-
     @Override
     public String toString() {
         return "Historial: " + "infijo = " + infix + ", sufijo = " + sufix + ", respuesta = " + answer + '.';
