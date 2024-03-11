@@ -2,7 +2,7 @@
 //OK -> Es de tamaño fijo
 //No es iterable
 //Desperdicia espacio (Loitering)
-package arrays;
+package methods;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

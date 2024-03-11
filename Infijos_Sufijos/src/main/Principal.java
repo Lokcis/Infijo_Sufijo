@@ -1,6 +1,6 @@
 package main;
 
-import arrays.*;
+import methods.*;
 
 import java.util.Scanner;
 
@@ -9,7 +9,8 @@ public class Principal {
     ArrayQueue<String> queueIn;
     ArrayQueue<String> queueOut;
     ArrayStack<String> stack;
-
+    
+    
     public Principal() {
         queueIn = new ArrayQueue<>();
         queueOut = new ArrayQueue<>();

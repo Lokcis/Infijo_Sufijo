@@ -1,4 +1,4 @@
-package arrays;
+package methods;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -22,26 +22,26 @@ public class ArrayQueue<Item> implements Iterable<Item> {
         last=0;
     }
 
-public void enqueue(Item item) {
-    if (count == arr.length) {
-        resize(arr.length * 2);
+    public void enqueue(Item item) {
+        if (count == arr.length) {
+            resize(arr.length * 2);
+        }
+        arr[last] = item;
+        last = (last + 1) % arr.length; // Actualizar last después de asignar el elemento al arreglo
+        count++;
     }
-    arr[last] = item;
-    last = (last + 1) % arr.length; // Actualizar last después de asignar el elemento al arreglo
-    count++;
-}
 
     public Item dequeue() {
         if (isEmpty()) {
             throw new NoSuchElementException("Dequeue: Queue está vacío");
         }
-            Item temp = arr[first];
-            count--;
-            first = (first + 1) % arr.length; // Actualiza índice del frente
-            if (count <= arr.length / 4 && count > 0) {
-                resize(arr.length / 2);
-            }
-            return temp;
+        Item temp = arr[first];
+        count--;
+        first = (first + 1) % arr.length; // Actualiza índice del frente
+        if (count <= arr.length / 4 && count > 0) {
+            resize(arr.length / 2);
+        }
+        return temp;
     }
 
     public boolean isEmpty() {
