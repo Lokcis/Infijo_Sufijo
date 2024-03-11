@@ -14,17 +14,22 @@ public class ArrayQueue<Item> implements Iterable<Item> {
     private int count;
     private int first;
     private int last;
-    
+
     /**
-     * Constructor 
+     * Constructor de la cola
      */
     public ArrayQueue() {
         arr = (Item[]) new Object[1];
         count = 0;
-        first=0;
-        last=0;
+        first = 0;
+        last = 0;
     }
 
+    /**
+     * Encolador, añade items a la cola
+     *
+     * @param item
+     */
     public void enqueue(Item item) {
         if (count == arr.length) {
             resize(arr.length * 2);
@@ -34,6 +39,11 @@ public class ArrayQueue<Item> implements Iterable<Item> {
         count++;
     }
 
+    /**
+     * Desencolador, retira items de la cola
+     *
+     * @return
+     */
     public Item dequeue() {
         if (isEmpty()) {
             throw new NoSuchElementException("Dequeue: Queue está vacío");
@@ -47,16 +57,31 @@ public class ArrayQueue<Item> implements Iterable<Item> {
         return temp;
     }
 
+    /**
+     * Verifica si la cola tiene elementos
+     *
+     * @return
+     */
     public boolean isEmpty() {
         return (count == 0);
     }
 
+    /**
+     * Retorna el tamaño de la cola
+     *
+     * @return
+     */
     public int size() {
         return count;
     }
 
+    /**
+     * Redimensiona el tamaño de la cola
+     *
+     * @param maxCap
+     */
     private void resize(int maxCap) {
-        if (count==0) {
+        if (count == 0) {
             arr = (Item[]) new Object[maxCap];
             first = 0;
             last = 0;
@@ -69,24 +94,42 @@ public class ArrayQueue<Item> implements Iterable<Item> {
             current = (current + 1) % arr.length;
         }
         arr = temp;
-        first=0;
-        last=count % arr.length;
+        first = 0;
+        last = count % arr.length;
     }
 
+    /**
+     * Obtiene el iterador de la cola
+     *
+     * @return
+     */
     @Override
     public Iterator<Item> iterator() {
         return new ArrayIterator();
     }
 
+    /**
+     * Implementa el iterador
+     */
     private class ArrayIterator implements Iterator<Item> {
 
         private int i = count - 1; // Inicializa i apuntando al último elemento
 
+        /**
+         * Retorna si existen elmentos en la cola
+         *
+         * @return
+         */
         @Override
         public boolean hasNext() {
             return i >= 0; // Devuelve true si hay más elementos por iterar
         }
 
+        /**
+         * Retorna el item actual y incrementa el iterador
+         *
+         * @return
+         */
         @Override
         public Item next() {
             if (!hasNext()) {

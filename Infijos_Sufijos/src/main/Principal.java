@@ -7,6 +7,10 @@ import methods.History;
 
 import java.util.Scanner;
 
+/**
+ *
+ * @author lokci
+ */
 public class Principal {
 
     ArrayQueue<String> queueIn;
@@ -14,6 +18,9 @@ public class Principal {
     ArrayStack<String> stack;
     ArrayBag<History> bag;
 
+    /**
+     * Inicializa las estructuras de datos
+     */
     public Principal() {
         queueIn = new ArrayQueue<>();
         queueOut = new ArrayQueue<>();
@@ -21,9 +28,14 @@ public class Principal {
         bag = new ArrayBag<>();
     }
 
+    /**
+     * Main, no hay contexto, solo, main
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         Principal main = new Principal();
-        String ecu, infix, suffix;
+        String ecu, infix, sufix;
         String[] elements;
         double result, leftOperand, rightOperand = 0;
         Scanner in = new Scanner(System.in);
@@ -36,7 +48,7 @@ public class Principal {
                 break;
             }
             infix = ecu;
-            suffix = "";
+            sufix = "";
 
             try {
                 if (ecu.contains(" ")) {
@@ -78,7 +90,7 @@ public class Principal {
                 ArrayQueue<String> queueOutCopy = new ArrayQueue<>();
                 while (!main.queueOut.isEmpty()) {
                     String element = main.queueOut.dequeue();
-                    suffix += element;
+                    sufix += element;
                     System.out.print(element + " ");
                     queueOutCopy.enqueue(element);  // Guardar una copia de la cola de salida
                 }
@@ -119,7 +131,7 @@ public class Principal {
                 if (rightOperand != 0) {
                     result = evaluation.pop();
                     System.out.println("Resultado: " + result);
-                    History history = new History(infix, suffix, result);
+                    History history = new History(infix, sufix, result);
                     main.bag.add(history);
                     for (History h : main.bag) {
                         System.out.println(h);

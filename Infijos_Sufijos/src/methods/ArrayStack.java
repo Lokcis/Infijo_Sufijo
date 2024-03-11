@@ -18,12 +18,20 @@ public class ArrayStack<Item> implements Iterable<Item> {
     private int count;
     private Item top;
 
+    /**
+     * Constructor de la pila
+     */
     public ArrayStack() {
         arr = (Item[]) new Object[1];
         count = 0;
         top = null;
     }
 
+    /**
+     * Añade un item a la pila
+     *
+     * @param item
+     */
     public void push(Item item) {
         if (count == arr.length) {
             resize(arr.length * 2);
@@ -33,6 +41,7 @@ public class ArrayStack<Item> implements Iterable<Item> {
     }
 
     /**
+     * Elimina un item de la pila
      *
      * @return
      */
@@ -55,14 +64,29 @@ public class ArrayStack<Item> implements Iterable<Item> {
         }
     }
 
+    /**
+     * Verifica si existen elementos en la pila
+     *
+     * @return
+     */
     public boolean isEmpty() {
         return (count == 0);
     }
 
+    /**
+     * Retorna el tamaño de la pila
+     *
+     * @return
+     */
     public int size() {
         return count;
     }
 
+    /**
+     * Redimensiona el tamaño de la pila
+     *
+     * @param maxCap
+     */
     private void resize(int maxCap) {
         Item[] temp = (Item[]) new Object[maxCap];
         for (int i = 0; i < count; i++) {
@@ -71,6 +95,11 @@ public class ArrayStack<Item> implements Iterable<Item> {
         arr = temp;
     }
 
+    /**
+     * Retorna el final de la pila
+     *
+     * @return
+     */
     public Item peek() {
         if (isEmpty()) {
             throw new NoSuchElementException("La pila está vacía");
@@ -78,20 +107,38 @@ public class ArrayStack<Item> implements Iterable<Item> {
         return top;
     }
 
+    /**
+     * Obtiene el iterador de la cola
+     *
+     * @return
+     */
     @Override
     public Iterator<Item> iterator() {
         return new ArrayIterator();
     }
 
+    /**
+     * Implementa el iterador
+     */
     private class ArrayIterator implements Iterator<Item> {
 
         private int i = count - 1;
 
+        /**
+         * Retorna si existen elmentos en la cola
+         *
+         * @return
+         */
         @Override
         public boolean hasNext() {
             return i >= 0;
         }
 
+        /**
+         * Retorna el item actual y incrementa el iterador
+         *
+         * @return
+         */
         @Override
         public Item next() {
             if (!hasNext()) {
