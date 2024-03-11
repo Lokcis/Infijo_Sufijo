@@ -7,9 +7,9 @@ package methods;
 public class History {
     private String infix;
     private String sufix;
-    private int answer;
+    private double answer;
         
-    public History(String newInfix, String newSufix, int newAnswer){
+    public History(String newInfix, String newSufix, double newAnswer){
         infix = newInfix;
         sufix = newSufix;
         answer = newAnswer;
@@ -23,8 +23,14 @@ public class History {
         return sufix;
     }
 
-    public int getAnswer() {
+    public double getAnswer() {
         return answer;
     }
-            
+
+    @Override
+    public String toString() {
+        return "Historial: " + "infijo = " + infix + ", sufijo = " + sufix + ", respuesta = " + answer + '.';
+    }
+    
+    
 }
