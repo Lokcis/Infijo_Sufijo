@@ -1,6 +1,9 @@
 package main;
 
-import methods.*;
+import methods.ArrayQueue;
+import methods.ArrayStack;
+import methods.ArrayBag;
+import methods.History;
 
 import java.util.Scanner;
 
@@ -9,34 +12,37 @@ public class Principal {
     ArrayQueue<String> queueIn;
     ArrayQueue<String> queueOut;
     ArrayStack<String> stack;
-    
+    ArrayBag<History> bag;
     
     public Principal() {
         queueIn = new ArrayQueue<>();
         queueOut = new ArrayQueue<>();
         stack = new ArrayStack<>();
+        bag = new ArrayBag<>();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {        
         Principal main = new Principal();
-        String ecu;
+        String ecu, infix, sufix = "";
+        String[] elements;
+        double result = 0;
         Scanner in = new Scanner(System.in);
         System.out.println("¡BIENVENIDO!");
 
         while (true) {
             System.out.println("Por favor, ingresa la ecuación infija a convertir a sufija (o introduce 'exit' para salir):");
             ecu = in.nextLine();
-
             if (ecu.equalsIgnoreCase("exit")) {
                 break;
             }
+            infix = ecu;
 
             try {
                 if (ecu.contains(" ")) {
                     throw new Exception("Por favor, ingresa la ecuación sin espacios.");
                 }
 
-                String[] elements = ecu.split("");
+                elements = ecu.split("");
                 for (String each : elements) {
                     main.queueIn.enqueue(each);
                 }
@@ -61,13 +67,14 @@ public class Principal {
                         main.stack.push(s);
                     }
                 }
+                sufix = main.queueOut.toString();
                 while (!main.stack.isEmpty()) {
                     main.queueOut.enqueue(main.stack.pop()); // Agregar los operadores restantes a la cola de salida
                 }
 
                 // Imprimir la cola de salida (expresión posfija)
                 System.out.println("Expresión posfija:");
-                ArrayQueue<String> queueOutCopy = new ArrayQueue<>();
+                ArrayQueue<String> queueOutCopy = new ArrayQueue<>();                
                 while (!main.queueOut.isEmpty()) {
                     String element = main.queueOut.dequeue();
                     System.out.print(element + " ");
@@ -76,14 +83,13 @@ public class Principal {
                 System.out.println();
 
                 main.queueOut = queueOutCopy;  // Actualizar queueOut con la copia
-
+                
                 // Evaluar la expresión posfija
                 ArrayStack<Double> evaluation = new ArrayStack<>();
                 while (!main.queueOut.isEmpty()) {
                     String s = main.queueOut.dequeue();
-
                     if (s.charAt(0) >= '0' && s.charAt(0) <= '9') {
-                        evaluation.push(Double.parseDouble(s));
+                        evaluation.push(Double.valueOf(s));
                     } else {
                         double rightOperand = evaluation.pop();
                         double leftOperand = evaluation.pop();
@@ -109,10 +115,15 @@ public class Principal {
                     }
                 }
 
-                double result = evaluation.pop();
+                result = evaluation.pop();
                 System.out.println("Resultado: " + result);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+            }
+            History history = new History(infix,sufix,result);
+            main.bag.add(history);
+            for (History h : main.bag) {
+                System.out.println(h);
             }
         }
     }
