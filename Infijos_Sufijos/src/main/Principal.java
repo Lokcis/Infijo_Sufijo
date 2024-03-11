@@ -25,7 +25,7 @@ public class Principal {
         Principal main = new Principal();
         String ecu, infix, suffix;
         String[] elements;
-        double result = 0;
+        double result, leftOperand, rightOperand = 0;
         Scanner in = new Scanner(System.in);
         System.out.println("¡BIENVENIDO!");
 
@@ -93,8 +93,8 @@ public class Principal {
                     if (s.charAt(0) >= '0' && s.charAt(0) <= '9') {
                         evaluation.push(Double.valueOf(s));
                     } else {
-                        double rightOperand = evaluation.pop();
-                        double leftOperand = evaluation.pop();
+                        rightOperand = evaluation.pop();
+                        leftOperand = evaluation.pop();
 
                         switch (s) {
                             case "+":
@@ -116,14 +116,16 @@ public class Principal {
                         }
                     }
                 }
-
-                result = evaluation.pop();
-                System.out.println("Resultado: " + result);
-                History history = new History(infix, suffix, result);
-                main.bag.add(history);
-                for (History h : main.bag) {
-                    System.out.println(h);
+                if (rightOperand != 0) {
+                    result = evaluation.pop();
+                    System.out.println("Resultado: " + result);
+                    History history = new History(infix, suffix, result);
+                    main.bag.add(history);
+                    for (History h : main.bag) {
+                        System.out.println(h);
+                    }
                 }
+
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
