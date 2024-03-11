@@ -23,7 +23,7 @@ public class Principal {
 
     public static void main(String[] args) {        
         Principal main = new Principal();
-        String ecu, infix, sufix = "";
+        String ecu, infix, suffix;
         String[] elements;
         double result = 0;
         Scanner in = new Scanner(System.in);
@@ -36,6 +36,7 @@ public class Principal {
                 break;
             }
             infix = ecu;
+            suffix = "";
 
             try {
                 if (ecu.contains(" ")) {
@@ -67,7 +68,7 @@ public class Principal {
                         main.stack.push(s);
                     }
                 }
-                sufix = main.queueOut.toString();
+                
                 while (!main.stack.isEmpty()) {
                     main.queueOut.enqueue(main.stack.pop()); // Agregar los operadores restantes a la cola de salida
                 }
@@ -77,6 +78,7 @@ public class Principal {
                 ArrayQueue<String> queueOutCopy = new ArrayQueue<>();                
                 while (!main.queueOut.isEmpty()) {
                     String element = main.queueOut.dequeue();
+                    suffix += element;
                     System.out.print(element + " ");
                     queueOutCopy.enqueue(element);  // Guardar una copia de la cola de salida
                 }
@@ -120,7 +122,7 @@ public class Principal {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            History history = new History(infix,sufix,result);
+            History history = new History(infix,suffix,result);
             main.bag.add(history);
             for (History h : main.bag) {
                 System.out.println(h);
