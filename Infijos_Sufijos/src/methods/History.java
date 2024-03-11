@@ -5,9 +5,9 @@ package methods;
  * @author lokci
  */
 public class History {
-    private String infix;
-    private String sufix;
-    private double answer;
+    private final String infix;
+    private final String sufix;
+    private final double answer;
         
     public History(String newInfix, String newSufix, double newAnswer){
         infix = newInfix;
