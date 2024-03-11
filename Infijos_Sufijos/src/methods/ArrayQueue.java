@@ -14,7 +14,10 @@ public class ArrayQueue<Item> implements Iterable<Item> {
     private int count;
     private int first;
     private int last;
-
+    
+    /**
+     * Constructor 
+     */
     public ArrayQueue() {
         arr = (Item[]) new Object[1];
         count = 0;

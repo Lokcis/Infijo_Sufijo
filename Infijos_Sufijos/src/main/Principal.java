@@ -13,7 +13,7 @@ public class Principal {
     ArrayQueue<String> queueOut;
     ArrayStack<String> stack;
     ArrayBag<History> bag;
-    
+
     public Principal() {
         queueIn = new ArrayQueue<>();
         queueOut = new ArrayQueue<>();
@@ -21,7 +21,7 @@ public class Principal {
         bag = new ArrayBag<>();
     }
 
-    public static void main(String[] args) {        
+    public static void main(String[] args) {
         Principal main = new Principal();
         String ecu, infix, suffix;
         String[] elements;
@@ -68,14 +68,14 @@ public class Principal {
                         main.stack.push(s);
                     }
                 }
-                
+
                 while (!main.stack.isEmpty()) {
                     main.queueOut.enqueue(main.stack.pop()); // Agregar los operadores restantes a la cola de salida
                 }
 
                 // Imprimir la cola de salida (expresión posfija)
                 System.out.println("Expresión posfija:");
-                ArrayQueue<String> queueOutCopy = new ArrayQueue<>();                
+                ArrayQueue<String> queueOutCopy = new ArrayQueue<>();
                 while (!main.queueOut.isEmpty()) {
                     String element = main.queueOut.dequeue();
                     suffix += element;
@@ -85,7 +85,7 @@ public class Principal {
                 System.out.println();
 
                 main.queueOut = queueOutCopy;  // Actualizar queueOut con la copia
-                
+
                 // Evaluar la expresión posfija
                 ArrayStack<Double> evaluation = new ArrayStack<>();
                 while (!main.queueOut.isEmpty()) {
@@ -119,13 +119,13 @@ public class Principal {
 
                 result = evaluation.pop();
                 System.out.println("Resultado: " + result);
+                History history = new History(infix, suffix, result);
+                main.bag.add(history);
+                for (History h : main.bag) {
+                    System.out.println(h);
+                }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-            }
-            History history = new History(infix,suffix,result);
-            main.bag.add(history);
-            for (History h : main.bag) {
-                System.out.println(h);
             }
         }
     }
