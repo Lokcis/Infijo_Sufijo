@@ -30,7 +30,7 @@ public class Principal {
 
     /**
      * Main, no hay contexto, solo, main
-     * 
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -43,6 +43,7 @@ public class Principal {
 
         while (true) {
             System.out.println("Por favor, ingresa la ecuación infija a convertir a sufija (o introduce 'exit' para salir):");
+            System.out.println("Por favor, escriba la ecuacion con espacios entre los números y los operadores. ");
             ecu = in.nextLine();
             if (ecu.equalsIgnoreCase("exit")) {
                 break;
@@ -51,11 +52,13 @@ public class Principal {
             sufix = "";
 
             try {
-                if (ecu.contains(" ")) {
-                    throw new Exception("Por favor, ingresa la ecuación sin espacios.");
+
+                if (!ecu.matches("(\\d+\\s\\D\\s\\d+)+")) {
+                    System.out.println("Escriba la Ecuacion con espacios entre los números y los operadores. ");
+                    continue; // Salta al inicio del bucle
                 }
 
-                elements = ecu.split("");
+                elements = ecu.split("\\s+");
                 for (String each : elements) {
                     main.queueIn.enqueue(each);
                 }
